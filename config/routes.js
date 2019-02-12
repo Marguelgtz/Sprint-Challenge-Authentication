@@ -19,7 +19,6 @@ function register(req, res) {
   if(creds.username && creds.password) {
     db.register(creds)
       .then(ids => {
-        console.log(ids)
         const id = ids[0]
         db.getUser(id)
           .then(user => {
@@ -52,15 +51,14 @@ function login(req, res) {
   if(creds.username && creds.password) {
     db.login(creds.username)
       .then(user => {
-        console.log(user)
         if(user.password && bcrypt.compareSync(creds.password, user.password)) {
           const token = generateToken(user)
           res
-            .status(200)
-            json({token})
+            .status(201)
+            .json({token})
         } else {
           res
-            .status(403)
+            .status(500)
             .json({message: 'Failed to authenticate'})
         }
       })
