@@ -13,7 +13,7 @@ module.exports = {
   },
 
   register: (creds) => {
-    db('users').insert('creds')
+    return db('users').insert(creds)
   },
 
   login: (username) => {
