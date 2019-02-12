@@ -52,9 +52,10 @@ function login(req, res) {
     db.login(creds.username)
       .then(user => {
         if(user.password && bcrypt.compareSync(creds.password, user.password)) {
+          const token = generateToken(user)
           res
             .status(200)
-            json({message:'Welcome'})
+            json({token})
         } else {
           res
             .status(403)
